@@ -68,12 +68,12 @@ class SignInViewController: UIViewController {
             if error == nil && data != nil {
                 
                 do {
-//                    let utf8 = String(data: data!, encoding: .utf8)
+                    _ = String(data: data!, encoding: .utf8)
                     let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: String]
                     print(dictionary)
                 } catch {
                     print("Error parsing response data!")
-                    print(data)
+                    print(data ?? <#default value#>)
                 }
                 
             }
@@ -82,69 +82,69 @@ class SignInViewController: UIViewController {
         dataTask.resume()
         
         // Connect to our database
-//        let myUrl = URL(string: "http://127.0.0.1:5000/userLogin") // Route needed
-//        var request = URLRequest(url: myUrl!) // Make an URL link
-//
-//
-//
+        let myUrl = URL(string: "http://127.0.0.1:5000/userLogin") // Route needed
+        _ = URLRequest(url: myUrl!) // Make an URL link
+
+
+
         // HTTP Headers
-//        request.httpMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "content-type")
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//
-//        let postString = ["Email": userName!, "Pass": password!] as [String: String]
-//
-//        do {
-//            request.httpBody = try JSONSerialization.data(withJSONObject: postString, options: .prettyPrinted)
-//        } catch let error {
-//            print(error.localizedDescription)
-//            displayMessage(userMessage: "Coś poszło nie tak.")
-//            return
-//        }
-//
-//        let task = URLSession.shared.dataTask(with: request) {
-//            (data: Data?, response: URLResponse?, error: Error?) in
-//
-//            self.removeActivityIndicator(activityIndicator: myActivityIndicator)
-//
-//            if error != nil {
-//                self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
-//                print("Error: \(String(describing: error))")
-//                return
-//            }
-//
-//            do {
-//                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-//
-//                if let parseJSON = json {
-//
-//                    let accessToken = parseJSON["token"] as? String
-//                   // let userId = parseJSON["Id"] as? String
-//                    print("Acces Token: \(String(describing: accessToken))")
-//
-//                    if (accessToken?.isEmpty)! {
-//                        self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
-//                        return
-//                    }
-//
-//                    DispatchQueue.main.async {
-//                        let homePage = self.storyboard?.instantiateViewController(identifier: "HomePageViewController") as! HomePageViewController
-//                        let appDelegate = UIApplication.shared.delegate
-//                        appDelegate?.window??.rootViewController = homePage
-//                    }
-//
-//
-//                } else {
-//                    self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
-//                }
-//            } catch {
-//                self.removeActivityIndicator(activityIndicator: myActivityIndicator)
-//                self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.ASdASD")
-//                print("Error: \(String(describing: error))")
-//                return
-//            }
-//        }
-//        task.resume()
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "content-type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        let postString = ["Email": userName!, "Pass": password!] as [String: String]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: postString, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+            displayMessage(userMessage: "Coś poszło nie tak.")
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: request) {
+            (data: Data?, response: URLResponse?, error: Error?) in
+
+            self.removeActivityIndicator(activityIndicator: myActivityIndicator)
+
+            if error != nil {
+                self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
+                print("Error: \(String(describing: error))")
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+
+                if let parseJSON = json {
+
+                    let accessToken = parseJSON["token"] as? String
+                   // let userId = parseJSON["Id"] as? String
+                    print("Acces Token: \(String(describing: accessToken))")
+
+                    if (accessToken?.isEmpty)! {
+                        self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
+                        return
+                    }
+
+                    DispatchQueue.main.async {
+                        let homePage = self.storyboard?.instantiateViewController(identifier: "HomePageViewController") as! HomePageViewController
+                        let appDelegate = UIApplication.shared.delegate
+                        appDelegate?.window??.rootViewController = homePage
+                    }
+
+
+                } else {
+                    self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
+                }
+            } catch {
+                self.removeActivityIndicator(activityIndicator: myActivityIndicator)
+                self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.ASdASD")
+                print("Error: \(String(describing: error))")
+                return
+            }
+        }
+        task.resume()
         
     }
     
