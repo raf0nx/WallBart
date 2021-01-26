@@ -53,7 +53,7 @@ class RegisterUserViewController: UIViewController {
         view.addSubview(myActivityIndicator)
         
         // Connect to our database
-        let myUrl = URL(string: "http://localhost:5000/addUser")
+        let myUrl = URL(string: "http://127.0.0.1:5000/addUser")
         var request = URLRequest(url: myUrl!)
         
         // HTTP Headers
@@ -98,7 +98,7 @@ class RegisterUserViewController: UIViewController {
             
             // Convert response into dictionary
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                 
                 // If dictionary has data
                 if let parseJSON = json {
@@ -119,7 +119,7 @@ class RegisterUserViewController: UIViewController {
                     
                 } else {
                     // Display an error alert
-                    self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.")
+                    self.displayMessage(userMessage: "Nie udało się wykonać tej akcji. Spróbuj ponowne później.") // ERROR
                 }
             } catch {
                 // Remove our spinner from view
@@ -135,12 +135,12 @@ class RegisterUserViewController: UIViewController {
 
         
         // Func to remove spinner from the view
-        func removeActivityIndicator(activityIndicator: UIActivityIndicatorView) {
-            DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                    activityIndicator.removeFromSuperview()
-                }
-            }
+    func removeActivityIndicator(activityIndicator: UIActivityIndicatorView) {
+        DispatchQueue.main.async {
+                activityIndicator.stopAnimating()
+                activityIndicator.removeFromSuperview()
+        }
+    }
     
     
     // Cancel Button handler
